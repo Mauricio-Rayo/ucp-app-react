@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        nodejs 'Node_16'  // Configurado en Global Tools
+        nodejs 'Node_19'  // Configurado en Global Tools
     }
     stages {
         // Etapa 1: Checkout
