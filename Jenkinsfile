@@ -15,6 +15,7 @@ pipeline {
         // Etapa 2: Build
         stage('Build') {
             steps {
+                 sh 'npm config set strict-ssl false' // esta línea es la clave
                 sh 'npm install'
                 sh 'npm run build'
             }
