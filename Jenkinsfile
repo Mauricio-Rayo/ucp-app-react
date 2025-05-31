@@ -111,16 +111,19 @@ pipeline {
         stage('Simulate Production Deployment') {
             steps {
                 script {
-                    // Check if the build was successful or unstable.
-                    // A common practice is to only deploy if the build is 'SUCCESS'.
-                    // If you want to deploy even if tests are unstable, adjust this condition.
-                    if (currentBuild.result == 'SUCCESS' || currentBuild.result == 'UNSTABLE') {
-                        sh "mkdir -p ${DEPLOY_DIR} && cp -r build/* ${DEPLOY_DIR}/"
-                        sh "pwd"
-                        echo "INFO: Simulated deployment successful! Files copied to ./${DEPLOY_DIR}/"
-                    } else {
-                        echo "WARNING: Skipping deployment because the build status is ${currentBuild.result}."
-                    }
+                    // Verifica que el directorio build existe
+                    sh 'ls -la build/ || echo "Directory build/ does not exist"'
+            
+                    // Crea prod y copia con verificación
+                    sh '''
+                        mkdir -p prod
+                        echo "Contents of build/:"
+                        ls -la build/
+                        echo "Copying files..."
+                        cp -r build/* prod/ || echo "Copy failed"
+                        echo "Contents of prod/:"
+                        ls -la prod/
+                    '''
                 }
             }
         }
@@ -133,6 +136,15 @@ pipeline {
     post {
         always {
             script {
+                // Publicar HTML
+                publishHTML target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'build',
+                    reportFiles: 'index.html',
+                    reportName: 'Demo Deploy'
+                ]
                 // Send email notification with build status.
                 // Ensure the Mailer Plugin is configured in Jenkins.
                 mail(
