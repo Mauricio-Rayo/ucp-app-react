@@ -147,8 +147,8 @@ pipeline {
         // success {
         //     echo 'Build was successful! Consider archiving artifacts here.'
         // }
-        // failure {
-        //     echo 'Build failed! Further analysis might be needed.'
-        // }
+         failure {
+             echo 'Build failed! Further analysis might be needed.'
+         }
     }
 }
