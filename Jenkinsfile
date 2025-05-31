@@ -71,7 +71,8 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit"
+                                //sh "npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit"
+                                sh 'JEST_JUNIT_OUTPUT_NAME="${JUNIT_CHROME_REPORT}" npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit'
                                 junit "${JUNIT_CHROME_REPORT}"
                             } catch (err) {
                                 // Provide a more descriptive error message in the console log.
