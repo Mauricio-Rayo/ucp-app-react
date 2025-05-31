@@ -90,7 +90,8 @@ pipeline {
                             try {
                                 //sh "npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit --outputFile=${JUNIT_FIREFOX_REPORT}"
                                 sh 'JEST_JUNIT_OUTPUT_NAME="${JUNIT_FIREFOX_REPORT}" npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit'
-                                junit "${JUNIT_FIREFOX_REPORT}"
+                                //junit "${JUNIT_FIREFOX_REPORT"
+                                junit "ERROR FORZADO"
                             } catch (err) {
                                 // Provide a more descriptive error message in the console log.
                                 echo "ERROR: Firefox tests failed. See build logs for details."
@@ -149,6 +150,11 @@ pipeline {
         // }
          failure {
              echo 'Build failed! Further analysis might be needed.'
+              mail(
+                    to: "${EMAIL_RECIPIENT}",
+                    subject: "Jenkins Build Status: FALLIDO ${env.JOB_NAME} - ${currentBuild.currentResult}",
+                    body: "Job: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\nURL: ${env.BUILD_URL}"
+                )
          }
     }
 }
