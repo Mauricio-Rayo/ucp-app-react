@@ -63,19 +63,21 @@ pipeline {
        
 
         stage('Security Scan with Snyk') {
-steps {
-script {
-withCredentials([string(credentialsId: 'SNYK_API_TOKEN', variable: 'SNYK_TOKEN')]) {
-// Instalar CLI de Snyk
-sh 'npm install -g snyk'
-// Autenticar
-sh 'snyk auth ${SNYK_TOKEN}'
-// Ejecutar test de seguridad
-sh 'snyk test --all-projects --severity-threshold=high'
-// Opcional: Monitorear en Snyk (registra resultados en dashboard)
-sh 'snyk monitor --all-projects'
-}
-}
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'SNYK_API_TOKEN', variable: 'SNYK_TOKEN')]) {
+                        // Instalar CLI de Snyk
+                        sh 'npm install -g snyk'
+                        // Autenticar
+                        sh 'snyk auth ${SNYK_TOKEN}'
+                        // Ejecutar test de seguridad
+                        sh 'snyk test --all-projects --severity-threshold=high'
+                        // Opcional: Monitorear en Snyk (registra resultados en dashboard)
+                        sh 'snyk monitor --all-projects'
+                    }
+                }
+            }
+        }
         
         // ---
         // Stage 3: Parallelized Testing
