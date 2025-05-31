@@ -17,7 +17,7 @@ pipeline {
         GIT_BRANCH = 'main' // Or env.BRANCH_NAME if you want to use the branch that triggered the build
 
         // Define test report file names as variables
-        JUNIT_CHROME_REPORT = 'junit.xml'
+        JUNIT_CHROME_REPORT = 'junit-CHROME.xml'
         JUNIT_FIREFOX_REPORT = 'junit.xml'
 
         // Define the target deployment directory
