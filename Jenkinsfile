@@ -17,7 +17,7 @@ pipeline {
         GIT_BRANCH = 'main' // Or env.BRANCH_NAME if you want to use the branch that triggered the build
 
         // Define test report file names as variables
-        JUNIT_CHROME_REPORT = 'junit-chrome.xml'
+        JUNIT_CHROME_REPORT = 'junit.xml'
         JUNIT_FIREFOX_REPORT = 'junit-firefox.xml'
 
         // Define the target deployment directory
@@ -71,7 +71,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit --outputFile=${JUNIT_CHROME_REPORT}"
+                                sh "npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit "
                                 junit "${JUNIT_CHROME_REPORT}"
                             } catch (err) {
                                 // Provide a more descriptive error message in the console log.
