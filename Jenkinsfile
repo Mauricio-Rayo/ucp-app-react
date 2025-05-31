@@ -89,7 +89,7 @@ pipeline {
                         script {
                             try {
                                 //sh "npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit --outputFile=${JUNIT_FIREFOX_REPORT}"
-                                sh 'JEST_JUNIT_OUTPUT_NAME="${JUNIT_FIREFOX_REPORT}" npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit'
+                                sh 'JEST_JUNIT_OUTPUT_NAME="${JUNIT_FIREFOX_REPORT}" npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit'
                                 junit "${JUNIT_FIREFOX_REPORT}"
                             } catch (err) {
                                 // Provide a more descriptive error message in the console log.
