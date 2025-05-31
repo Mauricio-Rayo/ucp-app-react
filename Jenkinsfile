@@ -90,8 +90,8 @@ pipeline {
                             try {
                                 //sh "npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit --outputFile=${JUNIT_FIREFOX_REPORT}"
                                 sh 'JEST_JUNIT_OUTPUT_NAME="${JUNIT_FIREFOX_REPORT}" npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit'
-                                //junit "${JUNIT_FIREFOX_REPORT"
-                                junit "ERROR FORZADO"
+                                junit "${JUNIT_FIREFOX_REPORT}"
+                                //junit "ERROR FORZADO"
                             } catch (err) {
                                 // Provide a more descriptive error message in the console log.
                                 echo "ERROR: Firefox tests failed. See build logs for details."
