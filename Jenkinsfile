@@ -60,24 +60,44 @@ pipeline {
             }
         }     
 
-       
-
         stage('Security Scan with Snyk') {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'SNYK_API_TOKEN', variable: 'SNYK_TOKEN')]) {
-                        // Instalar CLI de Snyk
-                        sh 'npm install -g snyk'
-                        // Autenticar
-                        sh 'snyk auth ${SNYK_TOKEN}'
-                        // Ejecutar test de seguridad
-                        sh 'snyk test --all-projects --severity-threshold=high'
-                        // Opcional: Monitorear en Snyk (registra resultados en dashboard)
-                        sh 'snyk monitor --all-projects'
+                    try {
+                    // 1. Instalar Snyk CLI
+                    sh 'npm install -g snyk'
+                    // 2. Autenticación
+                    sh 'snyk auth ${SNYK_TOKEN}'
+                    // 3. Test de vulnerabilidades (fail-on si hay vulnerabilidades altas/críticas)
+                    sh 'snyk test --all-projects --severity-threshold=high'
+                    // 4. Monitoreo continuo (opcional)
+                    sh 'snyk monitor --all-projects'
+                    // 5. Generar reporte HTML (opcional)
+                    sh 'snyk test --all-projects --json-file-output=snyk_results.json'
+                    sh '''
+                    npm install -g snyk-to-html
+                    snyk-to-html -i snyk_results.json -o snyk_report.html
+                    '''
+                    // Publicar reporte Snyk
+                    publishHTML target: [
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '.',
+                    reportFiles: 'snyk_report.html',
+                    reportName: 'Snyk Security Report'
+                    ]
+                    } catch (err) {
+                    echo "Snyk scan failed: ${err}"
+                    // Marcar build como inestable si hay vulnerabilidades
+                    currentBuild.result = 'UNSTABLE'
+                    }
                     }
                 }
-            }
+            } 
         }
+        
         
         // ---
         // Stage 3: Parallelized Testing
