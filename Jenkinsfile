@@ -116,6 +116,7 @@ pipeline {
             
                     // Crea prod y copia con verificación
                     sh '''
+                        pwd
                         mkdir -p prod
                         echo "Contents of build/:"
                         ls -la build/
