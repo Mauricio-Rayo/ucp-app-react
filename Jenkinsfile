@@ -116,6 +116,7 @@ pipeline {
                     // If you want to deploy even if tests are unstable, adjust this condition.
                     if (currentBuild.result == 'SUCCESS' || currentBuild.result == 'UNSTABLE') {
                         sh "mkdir -p ${DEPLOY_DIR} && cp -r build/* ${DEPLOY_DIR}/"
+                        sh "pwd"
                         echo "INFO: Simulated deployment successful! Files copied to ./${DEPLOY_DIR}/"
                     } else {
                         echo "WARNING: Skipping deployment because the build status is ${currentBuild.result}."
