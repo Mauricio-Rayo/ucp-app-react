@@ -59,13 +59,7 @@ pipeline {
                 }
             }
         }     
-         
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
-        }
-
+        
         // ---
         // Stage 3: Parallelized Testing
         // Run tests in parallel for different browsers.
