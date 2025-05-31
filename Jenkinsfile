@@ -77,7 +77,7 @@ pipeline {
                                 // Provide a more descriptive error message in the console log.
                                 echo "ERROR: Chrome tests failed. See build logs for details."
                                 // Mark the build as UNSTABLE if tests fail but allow the pipeline to continue.
-                                currentBuild.result = 'UNSTABLE'
+                                currentBuild.result = 'UNSTABLE chrome'
                             }
                         }
                     }
@@ -94,7 +94,7 @@ pipeline {
                                 // Provide a more descriptive error message in the console log.
                                 echo "ERROR: Firefox tests failed. See build logs for details."
                                 // Mark the build as UNSTABLE if tests fail but allow the pipeline to continue.
-                                currentBuild.result = 'UNSTABLE'
+                                currentBuild.result = 'UNSTABLE firefox'
                             }
                         }
                     }
