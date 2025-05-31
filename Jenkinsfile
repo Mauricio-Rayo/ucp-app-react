@@ -18,7 +18,7 @@ pipeline {
 
         // Define test report file names as variables
         JUNIT_CHROME_REPORT = 'junit.xml'
-        JUNIT_FIREFOX_REPORT = 'junit-firefox.xml'
+        JUNIT_FIREFOX_REPORT = 'junit.xml'
 
         // Define the target deployment directory
         DEPLOY_DIR = 'prod'
@@ -71,7 +71,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit "
+                                sh "npm test -- --browser=chrome --watchAll=false --ci --reporters=jest-junit --outputFile=junit-chromne.xml""
                                 junit "${JUNIT_CHROME_REPORT}"
                             } catch (err) {
                                 // Provide a more descriptive error message in the console log.
@@ -87,7 +87,8 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit --outputFile=${JUNIT_FIREFOX_REPORT}"
+                                //sh "npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit --outputFile=${JUNIT_FIREFOX_REPORT}"
+                                sh "npm test -- --browser=firefox --watchAll=false --ci --reporters=jest-junit --outputFile=junit-firefox.xml"
                                 junit "${JUNIT_FIREFOX_REPORT}"
                             } catch (err) {
                                 // Provide a more descriptive error message in the console log.
